@@ -20,7 +20,7 @@ mongoose.connect(db).then(() => {
 }).catch(error => console.log(error));
 
 app.use(
-    '/garphql',
+    '/graphql',
     cors(),
     bodyParser.json(),
     expressGrahQl({
