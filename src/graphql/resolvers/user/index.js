@@ -27,7 +27,7 @@ export default {
                 });
             });
         },
-        editUser: (root, { username, email, password }) => {
+        editUser: (root, {_id, username, email, password }) => {
             return new Promise((resolve, reject) => {
                 User.findOneAndUpdate({_id}, {$set: {username, email, password}})
                 .exec((err, res)=> {
