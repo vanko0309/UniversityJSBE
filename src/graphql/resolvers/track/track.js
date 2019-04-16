@@ -1,43 +1,45 @@
-import User from '../../../models/User';
+import Track from '../../../models/Track';
+import Image from '../../../models/Image';
+import Artist from '../../../models/Artist';
 
 export default {
     Query: {
-        user: (root, args) => {
+        track: (root, args) => {
             return new Promise((resolve, reject) => {
-                User.findOne(args).exec((err, res) => {
+                Track.findOne(args).exec((err, res) => {
                     err ? reject(err) : resolve(res);
                 });
             })
         },
-        users: (root, args) => {
+        tracks: (root, args) => {
             return new Promise((resolve, reject) => {
-                User.find(args).populate().exec((err, res) => {
+                Track.find(args).populate().exec((err, res) => {
                     err ? reject(err) : resolve(res);
                 });
             })
         },
     },
     Mutation: {
-        addUser: (root, { username, email, password }) => {
-            const newUser = new User({ username, email, password });
+        addTrack: (root, { artist, image, name, playcount, url }) => {
+            const newTrack = new Track({artist, image, name, playcount, url });
 
             return new Promise((resolve, reject) => {
-                newUser.save((err, res) => {
+                newTrack.save((err, res) => {
                     err ? reject(err) : resolve(res);
                 });
             });
         },
-        editUser: (root, { _id, username, email, password }) => {
+        editTrack: (root, { _id, artist, image, name, playcount, url }) => {
             return new Promise((resolve, reject) => {
-                User.findOneAndUpdate({ _id }, { $set: { username, email, password } })
+                Track.findOneAndUpdate({ _id }, { $set: { artist, image, name, playcount, url } })
                     .exec((err, res) => {
                         err ? reject(err) : resolve(res);
                     })
             });
         },
-        deleteUser: (root, { _id }) => {
+        deleteTrack: (root, { _id }) => {
             return new Promise((resolve, reject) => {
-                User.findOneAndRemove({ _id }).exec((err, res) => {
+                Track.findOneAndRemove({ _id }).exec((err, res) => {
                     err ? reject(err) : resolve(err);
                 });
             });

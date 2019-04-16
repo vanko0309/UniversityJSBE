@@ -1,48 +1,47 @@
-import User from '../../../models/User';
+import Artist from '../../../models/Artist';
 
 export default {
     Query: {
-        user: (root, args) => {
+        artist: (root, args) => {
             return new Promise((resolve, reject) => {
-                User.findOne(args).exec((err, res) => {
+                Artist.findOne(args).exec((err, res) => {
                     err ? reject(err) : resolve(res);
                 });
             })
         },
-        users: (root, args) => {
+        artists: (root, args) => {
             return new Promise((resolve, reject) => {
-                User.find(args).populate().exec((err, res) => {
+                Artist.find(args).populate().exec((err, res) => {
                     err ? reject(err) : resolve(res);
                 });
             })
         },
     },
     Mutation: {
-        addUser: (root, { username, email, password }) => {
-            const newUser = new User({ username, email, password });
+        addArtist: (root, { bio, image, name, playcount, url }) => {
+            const newArtist = new Artist({bio, image, name, playcount, url });
 
             return new Promise((resolve, reject) => {
-                newUser.save((err, res) => {
+                newArtist.save((err, res) => {
                     err ? reject(err) : resolve(res);
                 });
             });
         },
-        editUser: (root, { _id, username, email, password }) => {
+        editArtist: (root, { _id, bio, image, name, playcount, url }) => {
             return new Promise((resolve, reject) => {
-                User.findOneAndUpdate({ _id }, { $set: { username, email, password } })
+                Artist.findOneAndUpdate({ _id }, { $set: { bio, image, name, playcount, url } })
                     .exec((err, res) => {
                         err ? reject(err) : resolve(res);
                     })
             });
         },
-        deleteUser: (root, { _id }) => {
+        deleteArtist: (root, { _id }) => {
             return new Promise((resolve, reject) => {
-                User.findOneAndRemove({ _id }).exec((err, res) => {
+                Artist.findOneAndRemove({ _id }).exec((err, res) => {
                     err ? reject(err) : resolve(err);
                 });
             });
         },
 
     }
-
 }
